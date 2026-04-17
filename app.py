@@ -117,7 +117,7 @@ def build_timestamped_geojson(path: str, variable: str, sample_step: int, cell_s
 
     vmin = float(np.nanpercentile(cube, 5))
     vmax = float(np.nanpercentile(cube, 95))
-    cmap = bcm.linear.YlGnBu_09.scale(vmin, vmax) if variable == "RAINNC" else bcm.linear.RdYlBu_11.scale(vmin, vmax)
+    cmap = bcm.linear.YlGnBu_09.scale(vmin, vmax) if variable == "RAINNC" else bcm.linear.RdYlBu_11_r.scale(vmin, vmax)
 
     half_lat = (lat_step * sample_step * cell_scale) / 2.0
     half_lon = (lon_step * sample_step * cell_scale) / 2.0
@@ -193,7 +193,7 @@ def make_map(ds: xr.Dataset, variable: str, domain_label: str, payload: dict[str
     cm = (
         bcm.linear.YlGnBu_09.scale(payload["vmin"], payload["vmax"])
         if variable == "RAINNC"
-        else bcm.linear.RdYlBu_11.scale(payload["vmin"], payload["vmax"])
+        else bcm.linear.RdYlBu_11_r.scale(payload["vmin"], payload["vmax"])
     )
     cm.caption = "RAINNC (mm)" if variable == "RAINNC" else "T2 (deg C)"
     cm.add_to(m)
