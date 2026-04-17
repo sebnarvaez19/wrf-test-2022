@@ -1,0 +1,7 @@
+streamlit
+xarray
+folium
+streamlit-folium
+netCDF4
+numpy
+branca
