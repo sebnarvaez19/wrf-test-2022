@@ -5,3 +5,5 @@ streamlit-folium
 netCDF4
 numpy
 branca
+pandas
+matplotlib
