@@ -226,7 +226,6 @@ def make_map(ds: xr.Dataset, variable: str, domain_label: str, payload: dict[str
 def main() -> None:
     st.set_page_config(page_title="WRF NetCDF Dashboard", layout="wide")
     st.title("Rainfall Piojó Nov 2022 (WRF Model)")
-    st.caption("Default Folium animation controls restored")
 
     domain_label = st.sidebar.selectbox("Domain", list(DOMAIN_FILES.keys()), index=1)
     variable = st.sidebar.selectbox("Variable", list(VARIABLES.keys()), index=0, format_func=lambda v: f"{v} - {VARIABLES[v]}")
