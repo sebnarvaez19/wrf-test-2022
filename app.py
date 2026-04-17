@@ -117,7 +117,11 @@ def build_timestamped_geojson(path: str, variable: str, sample_step: int, cell_s
 
     vmin = float(np.nanpercentile(cube, 5))
     vmax = float(np.nanpercentile(cube, 95))
-    cmap = bcm.linear.YlGnBu_09.scale(vmin, vmax) if variable == "RAINNC" else bcm.linear.RdYlBu_11_r.scale(vmin, vmax)
+    if variable == "RAINNC":
+        cmap = bcm.linear.YlGnBu_09.scale(vmin, vmax)
+    else:
+        base = bcm.linear.RdYlBu_11.scale(vmin, vmax)
+        cmap = bcm.LinearColormap(colors=list(reversed(base.colors)), vmin=vmin, vmax=vmax)
 
     half_lat = (lat_step * sample_step * cell_scale) / 2.0
     half_lon = (lon_step * sample_step * cell_scale) / 2.0
@@ -190,11 +194,11 @@ def make_map(ds: xr.Dataset, variable: str, domain_label: str, payload: dict[str
         time_slider_drag_update=True,
     ).add_to(m)
 
-    cm = (
-        bcm.linear.YlGnBu_09.scale(payload["vmin"], payload["vmax"])
-        if variable == "RAINNC"
-        else bcm.linear.RdYlBu_11_r.scale(payload["vmin"], payload["vmax"])
-    )
+    if variable == "RAINNC":
+        cm = bcm.linear.YlGnBu_09.scale(payload["vmin"], payload["vmax"])
+    else:
+        base = bcm.linear.RdYlBu_11.scale(payload["vmin"], payload["vmax"])
+        cm = bcm.LinearColormap(colors=list(reversed(base.colors)), vmin=payload["vmin"], vmax=payload["vmax"])
     cm.caption = "RAINNC (mm)" if variable == "RAINNC" else "T2 (deg C)"
     cm.add_to(m)
 
